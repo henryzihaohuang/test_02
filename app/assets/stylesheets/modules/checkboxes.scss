@@ -1,0 +1,22 @@
+.checkbox {
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+
+  &.checkbox--flex {
+    display: flex;
+
+    margin-bottom: 15px;
+
+    input[type="checkbox"] {
+      position: relative;
+        top: 3px;
+    }
+
+    .checkbox--flex__details {
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+  }
+}

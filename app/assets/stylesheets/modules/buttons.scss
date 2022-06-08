@@ -1,0 +1,28 @@
+.button {
+  display: inline-block;
+
+  background-color: $dodger-blue;
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  padding: 10px 20px;
+  
+  &:hover {
+    background-color: darken($dodger-blue, 5%);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.button--small {
+    padding: 5px 10px;
+  }
+
+  &.button--active {
+
+  }
+}

@@ -1,0 +1,80 @@
+.candidate {
+  color: #000;
+
+  .candidate__summary {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+
+    .candidate__left {
+
+    }
+
+    .candidate__right {
+      text-align: right;
+    }
+
+    .candidate__summary__name {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .candidate__summary__title {
+
+    }
+
+    .candidate__summary__location {
+
+    }
+
+    .candidate__actions {
+      margin-top: 0;
+      margin-bottom: 0;
+
+      list-style-type: none;
+      padding-left: 0;
+
+      > li {
+        margin-bottom: 10px;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .candidate__details {
+    > div {
+      display: flex;
+
+      margin-bottom: 20px;
+
+      > div {
+        &:first-of-type {
+          flex-shrink: 0;
+
+          width: 75px;
+
+          margin-right: 20px;
+
+          color: $gray;
+          font-weight: 600;
+          text-align: right;
+        }
+
+        &:last-of-type {
+          * {
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

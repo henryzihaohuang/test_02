@@ -1,0 +1,286 @@
+<div class="search-form-stats-results-and-pagination">
+  <%= form_tag search_path, method: :get, data: { controller: "live-form", turbo: false } do %>
+    <% if flash[:error] %>
+      <div class="notice notice--error">
+        <%= flash[:error].html_safe %>
+      </div>
+    <% end %>
+
+    <div class="search-form-stats-results-and-pagination__search-form form form--search
+    <%= @searched ? 'form--inline' : 'form--centered' %>">
+      <div class="field field--large">
+        <%= text_field_tag :query, params[:query], placeholder: "Search by title"%>
+      </div>
+
+      <%= submit_tag "Search", class: "button" %>
+    </div>
+
+    <% if @searched %>
+      <div class="layout-row">
+        <div class="layout-column layout-column--3 scrollable">
+          <div class="panel">
+            <div class="panel__title">
+              Filters
+
+              <% if params.except(:query, :controller, :action).to_unsafe_h.any? {|key, value| value.present? } %>
+                <%= link_to "Clear all filters", "javascript:void(0);", data: { action: "click->live-form#clearAllFilters" },
+                                                                        class: "panel__title__clear" %>
+              <% end %>
+            </div>
+
+              <div class="panel__content">
+                <ul class="filter-list">
+                  <li>
+                    <div class="filter">
+                      <div class="filter__name">
+                        Diversity
+
+                        <% if params[:gender_diverse].present? || params[:ethnically_diverse].present? || params[:veteran].present? %>
+                          <%= link_to "Clear", "javascript:void(0);", data: { action: "click->live-form#clearFilter" },
+                                                                      class: "filter__name__clear" %>
+                        <% end %>
+                      </div>
+
+                      <ul class="unstyled-list">
+                        <li>
+                          <div class="toggle">
+                            <%= check_box_tag :gender_diverse, true, params[:gender_diverse], autocomplete: "off",
+                                                                                data: { action: "change->live-form#apply" } %>
+
+                            <%= label_tag :gender_diverse do %>
+                              <div class="toggle__slider"></div>
+
+                              Gender-diverse
+                            <% end %>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="toggle">
+                            <%= check_box_tag :ethnically_diverse, true, params[:ethnically_diverse], autocomplete: "off",
+                                                                                data: { action: "change->live-form#apply" } %>
+
+                            <%= label_tag :ethnically_diverse do %>
+                              <div class="toggle__slider"></div>
+
+                              Ethnically-diverse
+                            <% end %>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="toggle">
+                            <%= check_box_tag :veteran, true, params[:veteran], autocomplete: "off",
+                                                                                data: { action: "change->live-form#apply" } %>
+
+                            <%= label_tag :veteran do %>
+                              <div class="toggle__slider"></div>
+
+                              Veterans
+                            <% end %>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="toggle">
+                            <%= check_box_tag :has_disability, true, params[:has_disability], autocomplete: "off",
+                                                                                              data: { action: "change->live-form#apply" } %>
+
+                            <%= label_tag :has_disability do %>
+                              <div class="toggle__slider"></div>
+
+                              People with disabilities
+                            <% end %>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="filter">
+                      <div class="filter__name">
+                        Location
+
+                        <% if params[:locations].present? || params[:us_only].present? %>
+                          <%= link_to "Clear", "javascript:void(0);", data: { action: "click->live-form#clearFilter" },
+                                                                      class: "filter__name__clear" %>
+                        <% end %>
+                      </div>
+
+                      <div class="toggle">
+                        <%= check_box_tag :us_only, true, params[:us_only], autocomplete: "off",
+                                                                            data: { action: "change->live-form#apply" } %>
+
+                        <%= label_tag :us_only do %>
+                          <div class="toggle__slider"></div>
+
+                          US-only
+                        <% end %>
+                      </div>
+
+                      <%= react_component "LocationOptions", { name: "locations", existing_selected_locations: params.to_unsafe_h.fetch(:locations, []).reject {|location| location["location"] == "" } || [] } %>
+                    </div>
+                  </li>
+                  <% if @facets.any? %>
+                    <% title_facet = @facets["titles"] %>
+                    <% if title_facet %>
+                      <% options = title_facet["buckets"].collect {|bucket| { name: bucket["key"], value: bucket["key"], matchCount: bucket["doc_count"] } } %>
+                      <li>
+                        <div class="filter">
+                          <div class="filter__name">
+                            Title
+
+                            <% if params.fetch(:titles, []).any? %>
+                              <%= link_to "Clear", "javascript:void(0);", data: { action: "click->live-form#clearFilter" },
+                                                                          class: "filter__name__clear" %>
+                            <% end %>
+                          </div>
+
+                          <%= react_component "Options", { name: "titles[]", options: options, existing_selected_options: params[:titles] || [] } %>
+                        </div>
+                      </li>
+                    <% end %>
+                    <% years_of_experience_facet = @facets["years_of_experience"] %>
+                    <% if years_of_experience_facet %>
+                      <% options = years_of_experience_facet["buckets"].collect {|bucket| { name: bucket["key"], value: bucket["key"], matchCount: bucket["doc_count"] } } %>
+                      <li>
+                        <div class="filter">
+                          <div class="filter__name">
+                            Years of experience
+
+                            <% if params.fetch(:years_of_experiences, []).any? %>
+                              <%= link_to "Clear", "javascript:void(0);", data: { action: "click->live-form#clearFilter" },
+                                                                          class: "filter__name__clear" %>
+                            <% end %>
+                          </div>
+
+                          <%= react_component "Options", { name: "years_of_experiences[]", options: options, existing_selected_options: params[:years_of_experiences] || [] } %>
+                        </div>
+                      </li>
+                    <% end %>
+                    <% company_facet = @facets["company_names"] %>
+                    <% if company_facet %>
+                      <% options = company_facet["buckets"].collect {|bucket| { name: bucket["key"], value: bucket["key"], matchCount: bucket["doc_count"] } } %>
+                      <li>
+                        <div class="filter">
+                          <div class="filter__name">
+                            Company
+
+                            <% if params.fetch(:companies, []).any? %>
+                              <%= link_to "Clear", "javascript:void(0);", data: { action: "click->live-form#clearFilter" },
+                                                                          class: "filter__name__clear" %>
+                            <% end %>
+                          </div>
+
+                          <%= react_component "Options", { name: "companies[]", options: options, existing_selected_options: params[:companies] || [] } %>
+                        </div>
+                      </li>
+                    <% end %>
+                    <% current_company_headcount_facet = @facets["current_company_headcount"] %>
+                    <% if current_company_headcount_facet %>
+                      <% options = current_company_headcount_facet["buckets"].collect {|bucket| { name: bucket["key"], value: bucket["key"], matchCount: bucket["doc_count"] } } %>
+                      <li>
+                        <div class="filter">
+                          <div class="filter__name">
+                            Company headcount
+
+                            <% if params.fetch(:company_headcounts, []).any? %>
+                              <%= link_to "Clear", "javascript:void(0);", data: { action: "click->live-form#clearFilter" },
+                                                                          class: "filter__name__clear" %>
+                            <% end %>
+                          </div>
+
+                          <%= react_component "Options", { name: "company_headcounts[]", options: options, existing_selected_options: params[:company_headcounts] || [] } %>
+                        </div>
+                      </li>
+                    <% end %>
+                    <% industry_facet = @facets["industry"] %>
+                    <% if industry_facet %>
+                      <% options = industry_facet["buckets"].collect {|bucket| { name: bucket["key"], value: bucket["key"], matchCount: bucket["doc_count"] } } %>
+                      <li>
+                        <div class="filter">
+                          <div class="filter__name">
+                            Industry
+
+                            <% if params.fetch(:industries, []).any? %>
+                              <%= link_to "Clear", "javascript:void(0);", data: { action: "click->live-form#clearFilter" },
+                                                                          class: "filter__name__clear" %>
+                            <% end %>
+                          </div>
+
+                          <%= react_component "Options", { name: "industries[]", options: options, existing_selected_options: params[:industries] || [] } %>
+                        </div>
+                      </li>
+                    <% end %>
+                  <% end %>
+                  <li>
+                    <div class="filter">
+                      <div class="filter__name">
+                        Students
+
+                        <% if params[:student].present? %>
+                          <%= link_to "Clear", "javascript:void(0);", data: { action: "click->live-form#clearFilter" },
+                                                                      class: "filter__name__clear" %>
+                        <% end %>
+                      </div>
+
+                      <%= label_tag :student, data: { action: "change->live-form#apply" }, class: "checkbox" do %>
+                        <%= check_box_tag :student, true, params[:student], autocomplete: "off" %>
+
+                        Show only students
+                      <% end %>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="filter">
+                      <div class="filter__name">
+                        Keywords
+
+                        <% if params[:keywords].present? %>
+                          <%= link_to "Clear", "javascript:void(0);", data: { action: "click->live-form#clearFilter" },
+                                                                      class: "filter__name__clear" %>
+                        <% end %>
+                      </div>
+
+                      <div class="field">
+                        <%= text_field_tag :keywords, params[:keywords], placeholder: "Search by keyword", autocomplete: "off", data: { action: "change->live-form#apply" } %>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+
+        <div class="layout-column layout-column--9 scrollable">
+          <div class="search-form-stats-results-and-pagination__search-stats">
+            <div class="bold">
+              <%= number_with_delimiter(@total_results) %> <%= "result".pluralize(@total_results) %>
+            </div>
+          </div>
+
+          <% if @candidates.any? %>
+            <div class="search-form-stats-results-and-pagination__search-results">
+              <ul class="search-results">
+                <% @candidates.each do |candidate| %>
+                  <li>
+                    <%= render 'searches/candidate', candidate: candidate %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <div class="search-form-stats-results-and-pagination__pagination">
+              <%= paginate @candidates %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <h1>Find diverse talent for your next great hire</h1>
+
+        <p>
+          Start your search today and browse from millions of candidates.
+        </p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

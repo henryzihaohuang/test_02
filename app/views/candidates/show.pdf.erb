@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .candidate-profile .candidate-profile__summary {
+        display: flex;
+        justify-content: space-between;
+
+        margin-bottom: 20px;
+      }
+
+      .candidate-profile .candidate-profile__summary .candidate-profile__right {
+        text-align: right;
+      }
+
+      .candidate-profile .candidate-profile__summary .candidate-profile__summary__name {
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .candidate-profile .candidate-profile__details .candidate-profile__section {
+        margin-bottom: 30px;
+      }
+
+      .candidate-profile .candidate-profile__details .candidate-profile__section .candidate-profile__section__title {
+        margin-bottom: 5px;
+
+        font-size: 20px;
+      }
+
+      .candidate-profile .candidate-profile__details .candidate-profile__section .candidate-profile__section__title:first-of-type {
+        border-top: 1px solid #ebebeb;
+        padding-top: 30px;
+      }
+
+      .candidate-profile .candidate-profile__details .candidate-profile__section .candidate-profile__section__title:last-of-type {
+        margin-bottom: 0;
+
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="candidate-profile">
+      <div class="candidate-profile__summary">
+        <div class="candidate-profile__left">
+          <div class="candidate-profile__summary__name"><%= @candidate.full_name %></div>
+
+          <% if @candidate.current_title %>
+            <div class="candidate-profile__summary__title"><%= @candidate.current_title %> at <%= @candidate.current_company_name %></div>
+          <% end %>
+
+          <div class="candidate-profile__summary__location"><%= @candidate.location %></div>
+        </div>
+      </div>
+
+      <div class="candidate-profile__details">
+        <% if @candidate.bio %>
+          <div class="candidate-profile__section">
+            <div class="candidate-profile__section__title">Bio</div>
+
+            <%= @candidate.bio.html_safe %>
+          </div>
+        <% end %>
+
+        <% if @candidate.experiences.any? %>
+          <div class="candidate-profile__section">
+            <div class="candidate-profile__section__title">Experience</div>
+
+            <div>
+              <ul class="experiences experiences--full">
+                <% @candidate.experiences.reverse_chronological.each do |experience| %>
+                  <li>
+                    <div class="full-experience">
+                      <div class="full-experience__title">
+                        <%= experience.title %>
+                      </div>
+
+                      <div class="full-experience__company-name">
+                        <%= experience.company_name %>
+                      </div>
+
+                      <div class="full-experience__location">
+                        <%= experience.location %>
+                      </div>
+
+                      <div class="full-experience__date">
+                        <%= experience.date %>
+                      </div>
+
+                      <div class="full-experience__description">
+                        <%= experience.description&.html_safe %>
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @candidate.industry %>
+          <div class="candidate-profile__section">
+            <div class="candidate-profile__section__title">Industry</div>
+
+            <div><%= @candidate.industry %></div>
+          </div>
+        <% end %>
+
+        <% if @candidate.educations.any? %>
+          <div class="candidate-profile__section">
+            <div class="candidate-profile__section__title">Education</div>
+
+            <div>
+              <ul class="educations educations--full">
+                <% @candidate.educations.reverse_chronological.each do |education| %>
+                  <li>
+                    <div class="full-education">
+                      <div class="full-education__school-name">
+                        <%= education.school_name %>
+                      </div>
+
+                      <div class="full-education__degree">
+                        <%= education.degree %>
+                      </div>
+
+                      <div class="full-education__date">
+                        <%= education.date %>
+                      </div>
+
+                      <div class="full-education__description">
+                        <%= education.description&.html_safe %>
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </body>
+</html>

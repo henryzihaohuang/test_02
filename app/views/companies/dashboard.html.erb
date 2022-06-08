@@ -1,0 +1,69 @@
+<h1 class="title"><%= current_user.company_name %></h1>
+
+<div class="subtitle">
+  <%= pluralize(@number_of_recruiters, "total recruiter") %>
+</div>
+
+<%= form_tag dashboard_company_path, method: :get, data: { controller: "live-form", turbo: false } do %>
+  <div class="analytics-filters">
+    <div class="select">
+      <%= select_tag :recruiter_id, options_for_select(current_user.recruiters.reduce({}) {|acc, recruiter| acc[recruiter.email] = recruiter.id; acc }, @recruiter_id), include_blank: "All recruiters", data: { action: "change->live-form#apply" } %>
+    </div>
+
+    <div>
+      <div class="inline">
+        <div class="select">
+          <%= select_tag :date_range, options_for_select({ "Past week" => "past_week", "Past month" => "past_month", "Year to date" => "year_to_date", "Custom" => "custom" }, @date_range_filter), data: { action: "change->live-form#apply" } %>
+        </div>
+
+        <% if @date_range_filter == "custom" %>
+          <div class="select">
+            <input type="text" name="custom_date_range" value="<%= @custom_date_range_start_string %> - <%= @custom_date_range_end_string %>" data-controller="date-range" data-action="change->live-form#apply" />
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="grid">
+  <div class="metric">
+    <h2>Candidates sourced <%= date_range_to_human(@date_range_filter) %></h2>
+
+    <div>
+      <%= @candidates_sourced %>
+    </div>
+  </div>
+
+  <div class="metric">
+    <h2>Candidates saved to pipeline <%= date_range_to_human(@date_range_filter) %></h2>
+
+    <div>
+      <%= @candidates_saved %>
+    </div>
+  </div>
+
+  <div class="metric">
+    <h2>Searches run <%= date_range_to_human(@date_range_filter) %></h2>
+
+    <div>
+      <%= @searches_performed %>
+    </div>
+  </div>
+
+  <div class="metric">
+    <h2>Pipelines saved <%= date_range_to_human(@date_range_filter) %></h2>
+
+    <div>
+      <%= @pipelines_saved %>
+    </div>
+  </div>
+
+  <div class="metric">
+    <h2>Time spent using recruiter <%= date_range_to_human(@date_range_filter) %></h2>
+
+    <div>
+      <%= formatted_duration(@time_spent) %>
+    </div>
+  </div>
+</div>

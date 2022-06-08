@@ -1,0 +1,3 @@
+web: bundle exec rails s
+worker: bundle exec sidekiq -q searchkick -q default
+webpack: ./bin/webpack-dev-server

@@ -1,0 +1,30 @@
+{
+  "buildpacks": [
+    {
+      "url": "https://github.com/diowa/heroku-buildpack-vendorbinaries.git"
+    },
+    {
+      "url": "heroku/ruby"
+    }
+  ],
+  "environments": {
+    "review": {
+      "env": {
+        "HEROKU_APP_NAME": {
+          "required": true
+        },
+        "HEROKU_PLATFORM_TOKEN": {
+          "value": "29e60cb2-4115-404d-8744-632c932a19ac"
+        }
+      },
+      "scripts": {
+        "postdeploy": "bundle exec rails db:migrate && bundle exec rails db:seed && bundle exec rails searchkick:reindex:all && bundle exec rails aws:create_bucket_for_review_app"
+      }
+    }
+  },
+  "addons": [
+    "heroku-postgresql:hobby-dev",
+    "bonsai:sandbox",
+    "rediscloud:30"
+  ]
+}

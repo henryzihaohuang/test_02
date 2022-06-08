@@ -1,0 +1,76 @@
+.candidate-profile {
+  background-color: #fff;
+  border: 1px solid $alto;
+  padding: 20px;
+
+  .candidate-profile__summary {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+
+    .candidate-profile__left {
+
+    }
+
+    .candidate-profile__right {
+      text-align: right;
+    }
+
+    .candidate-profile__summary__name {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .candidate-profile__summary__title {
+
+    }
+
+    .candidate-profile__summary__location {
+      margin-bottom: 10px;
+    }
+
+    .candidate-profile__actions {
+      margin-top: 0;
+      margin-bottom: 0;
+
+      list-style-type: none;
+      padding-left: 0;
+
+      > li {
+        margin-bottom: 10px;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .candidate-profile__details {
+    .candidate-profile__section {
+      margin-bottom: 30px;
+
+      border-bottom: 1px solid $gallery;
+      padding-bottom: 30px;
+
+      .candidate-profile__section__title {
+        margin-bottom: 5px;
+
+        font-size: 20px;
+      }
+
+      &:first-of-type {
+        border-top: 1px solid $gallery;
+        padding-top: 30px;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}

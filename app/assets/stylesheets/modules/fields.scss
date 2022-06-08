@@ -1,0 +1,41 @@
+.field {
+  label {
+    display: block;
+    
+    font-weight: 700;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+
+    background-color: $concrete;
+    border: 0;
+    border-radius: 2px;
+    padding: 10px;
+
+    &::placeholder {
+      color: $gray;
+    }
+
+    &:focus {
+      border-color: $dodger-blue;
+      outline: none;
+    }
+  }
+
+  &.field--large {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 99%;
+
+      background-color: #fff;
+      border: 1px solid $alto;
+      border-radius: 5px;
+      font-size: 18px;
+      padding: 9px 20px;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+.search-form-stats-results-and-pagination {
+  .search-form-stats-results-and-pagination__search-form {
+    margin-bottom: 25px;
+  }
+
+  .search-form-stats-results-and-pagination__search-stats {
+    display: flex;
+    justify-content: flex-end;
+    
+    background-color: #fff;
+    border-left: 1px solid $gallery;
+    border-right: 1px solid $gallery;
+    border-top: 1px solid $gallery;
+    padding-bottom: 19px;
+    padding-right: 13px;
+    padding-top: 19px;
+    
+    position: sticky;
+    top: 0;
+    z-index: 99999;
+  }
+
+  .search-form-stats-results-and-pagination__search-results {
+    margin-bottom: 25px;
+  }
+
+  .search-form-stats-results-and-pagination__pagination {
+  }
+}

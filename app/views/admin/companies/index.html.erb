@@ -1,0 +1,30 @@
+<h1>Companies</h1>
+
+<%= form_tag admin_companies_path, method: :get do %>
+  <div>
+    <%= label_tag :query %>
+    <%= text_field_tag :query %>
+  </div>
+
+  <%= submit_tag "Search" %>
+<% end %>
+
+<div style="margin-bottom: 10px;">
+  <% if params[:query] %>
+    <%= link_to "Clear search", admin_companies_path %>
+  <% end %>
+</div>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+
+  <% @companies.each do |company| %>
+    <tr>
+      <td><%= link_to company.company_name, admin_company_path(company) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= paginate @companies %>

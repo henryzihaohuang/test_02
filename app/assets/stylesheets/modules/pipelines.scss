@@ -1,0 +1,19 @@
+.pipeline {
+  .breadcrumbs {
+    margin-bottom: 20px;
+  }
+
+  .pipeline__stats {
+    margin-bottom: 10px;
+
+    font-weight: 700;
+  }
+  
+  .table {
+    margin-bottom: 25px;
+  }
+
+  .pipeline__pagination {
+    text-align: center;
+  }
+}

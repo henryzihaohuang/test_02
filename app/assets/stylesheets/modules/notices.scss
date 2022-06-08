@@ -1,0 +1,11 @@
+.notice {
+  margin-bottom: 15px;
+
+  padding: 20px;
+
+  &.notice--error {
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+    color: #dc3545;
+  }
+}

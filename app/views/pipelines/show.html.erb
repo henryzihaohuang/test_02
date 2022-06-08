@@ -1,0 +1,29 @@
+<ul class="breadcrumbs">
+  <li>
+    <%= link_to "Pipelines", pipelines_path, data: { turbo: false } %>
+  </li>
+  <li>
+    <%= @pipeline.name %>
+  </li>
+</ul>
+
+<div class="pipeline">
+  <% if @pipeline.saved_candidates.any? %>
+    <div class="pipeline__stats">
+      <%= pluralize(@pipeline.saved_candidates.size, "candidate") %>
+    </div>
+
+    <ul class="saved-candidates">
+      <% @saved_candidates.each do |saved_candidate| %>
+        <li>
+          <%= render "searches/candidate", candidate: saved_candidate.candidate,
+                                           saved_candidate: saved_candidate %>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="pipeline__pagination">
+      <%= paginate @saved_candidates %>
+    </div>
+  <% end %>
+</div>

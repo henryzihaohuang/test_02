@@ -1,0 +1,45 @@
+.select {
+  background-color: #fff;
+  border: 1px solid $alto;
+
+  position: relative;
+
+  select,
+  input[name="custom_date_range"] {
+    appearance: none;
+    border: none;
+    padding: 12px 40px 12px 10px;
+
+    &:focus {
+      outline-color: $dodger-blue;
+    }
+  }
+
+  &::after {
+    display: block;
+
+    width: 15px;
+    height: 10px;
+
+    background-image: image-url("caret_down@2x.png");
+    background-size: 15px 10px;
+    content: "";
+    pointer-events: none;
+
+    position: absolute;
+      top: 15px;
+      right: 10px;
+  }
+}
+
+.inline {
+  display: flex;
+
+  > * {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

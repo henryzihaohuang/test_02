@@ -1,0 +1,28 @@
+$max-width: 1110px;
+$column-width: $max-width / 12;
+$spacing: 30px;
+
+.layout-container {
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.layout-row {
+  display: flex;
+
+  .layout-column {
+    margin-right: $spacing;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    @for $i from 1 through 12 {
+      &.layout-column--#{$i} {
+        flex-basis: ((($column-width * $i)) / $max-width) * 100%;
+
+        max-width: ((($column-width * $i)) / $max-width) * 100%;
+      }
+    }
+  }
+}

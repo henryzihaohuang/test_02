@@ -1,0 +1,34 @@
+<div class="pipeline-box">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Pipeline name</th>
+        <th>Candidates</th>
+        <th>Created on</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @pipelines.each do |pipeline| %>
+        <tr>
+          <td>
+            <%= link_to pipeline.name, pipeline, data: { turbo: false } %>
+          </td>
+          <td><%= pipeline.saved_candidates.size %></td>
+          <td><%= pipeline.created_at.strftime("%B %d, %Y") %>
+          <td>
+            <ul class="link-list">
+              <li>
+                <%= link_to "Download", download_pipeline_path(pipeline), data: { turbo: false } %>
+              </li>
+              <li>
+                <%= link_to "Delete", pipeline, method: :delete, data: { turbo: false } %>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

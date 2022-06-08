@@ -1,0 +1,9 @@
+.subtitle {
+  // Refactor out
+  border-bottom: 1px solid $alto;
+
+  font-size: 15px;
+  font-weight: 600;
+  // Refactor out
+  padding-bottom: 35px;
+}

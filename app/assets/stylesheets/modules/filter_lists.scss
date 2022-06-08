@@ -1,0 +1,13 @@
+.filter-list {
+  margin-top: 0;
+  margin-bottom: 0;
+
+  list-style-type: none;
+  padding-left: 0;
+
+  > li {
+    border-top: 1px solid $silver;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}

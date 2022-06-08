@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mogul Recruiter</title>
+    <%= favicon_link_tag 'favicon.ico' %>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}&libraries=places&region=us&callback=init",
+                    async: true,
+                    defer: true,
+                    'data-turbolinks-eval': false %>
+  </head>
+
+  <body class="<%= current_page?(search_path) ? 'unscrollable' : '' %>">
+
+    <div id="app-config"
+         data-auth-token="<%= current_user&.auth_token %>"></div>
+
+    <div class="header">
+      <div class="layout-container">
+        <div class="header__navigation">
+          <%= link_to root_path, data: { turbo: false } do %>
+            <%= image_tag 'logo.svg', class: 'logo' %>
+          <% end %>
+
+          <% if current_user %>
+            <nav class="header__navigation__links header__navigation__links--main">
+              <ul>
+                <li>
+                  <%= link_to "Search", root_path, data: { turbo: false }, class: (current_page?(root_path) || current_page?(search_path)) ? "active" : nil %>
+                </li>
+
+                <li>
+                  <%= link_to "Pipelines", pipelines_path, data: { turbo: false }, class: current_page?(pipelines_path) ? "active" : nil %>
+                </li>
+
+                <% if current_user.is_company? %>
+                  <li>
+                    <%= link_to "Analytics", dashboard_company_path, data: { turbo: false }, class: current_page?(dashboard_company_path) ? "active" : nil %>
+                  </li>
+                <% end %>
+              </ul>
+            </nav>
+          <% end %>
+        </div>
+
+        <% if current_user %>
+          <nav class="header__navigation__links">
+            <ul>
+              <li>
+                <%= link_to 'Logout', logout_path, method: :delete %>
+              </li>
+            </ul>
+          </nav>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="layout-container">
+      <%= yield %>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,146 @@
+<% saved_candidate = local_assigns.fetch(:saved_candidate, nil) %>
+
+<% if saved_candidate %>
+  <div class="candidate">
+<% else %>
+  <a href="<%= candidate_path(candidate) %>"
+     target="_blank"
+     data-turbo="false"
+     class="candidate">
+<% end %>
+  <div class="candidate__summary">
+    <div class="candidate__left">
+      <div class="candidate__summary__name">
+        <% if saved_candidate %>
+          <%= link_to candidate.full_name, candidate, data: { turbo: false } %>
+        <% else %>
+          <%= candidate.full_name %>
+        <% end %>
+      </div>
+
+      <% if candidate.current_title %>
+        <div class="candidate__summary__title">
+          <%= candidate.current_title %> at <%= candidate.current_company_name %>
+        </div>
+      <% end %>
+
+      <div class="candidate__summary__location">
+        <%= candidate.location %>
+      </div>
+    </div>
+
+    <div class="candidate__right">
+      <ul class="candidate__actions">
+        <% if !saved_candidate %>
+          <li>
+            <%= react_component "SaveToPipeline", {
+              auth_token: current_user.auth_token,
+              candidate: {
+                id: candidate.id,
+                saved: current_user.saved_candidates.exists?(candidate_id: candidate.id)
+              },
+              existing_pipelines: current_user.pipelines
+            } %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="candidate__details">
+    <% if candidate.bio %>
+      <div>
+        <div>Bio</div>
+
+        <div>
+          <%= candidate.bio.html_safe %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if candidate.experiences.any? %>
+      <div>
+        <div>Experience</div>
+
+        <div>
+          <ul class="experiences">
+            <%= react_component "ExperienceList", { experiences: candidate.experiences.reverse_chronological, path: candidate_path(candidate) } %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <% if candidate.educations.any? %>
+      <div>
+        <div>Education</div>
+
+        <div>
+          <ul class="educations">
+            <% candidate.educations.reverse_chronological.each do |education| %>
+              <li>
+                <div class="education">
+                  <div class="education__title">
+                    <%= education.school_name %> - <%= education.degree %>
+                  </div>
+
+                  <div class="education__date">
+                    <%= education.date %>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <% if saved_candidate %>
+      <div>
+        <div>Actions</div>
+
+        <div>
+          <ul class="actions">
+            <li>
+              <div>
+                <div>Resume</div>
+                <ul class="actions">
+                  <% if saved_candidate.resume.attached? %>
+                    <li>
+                      <%= link_to image_tag("file.svg", class: "icon icon--file"), rails_blob_url(saved_candidate.resume), target: "_blank" %>
+                    </li>
+                  <% else %>
+                    <li>
+                      <%= link_to image_tag("file.svg", class: "icon icon--file"), candidate_path(saved_candidate.candidate, format: :pdf), target: "_blank" %>
+                    </li>
+                  <% end %>
+                  <li>
+                    <UploadResume savedCandidate={savedCandidate}
+                                  onUploadResume={handleUploadResume} />
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div>Assessment</div>
+
+                <%= react_component "EditableTextArea", { auth_token: current_user.auth_token, saved_candidate_id: saved_candidate.id, parameter_name: "assessment", initial_value: saved_candidate.assessment } %>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div>Status</div>
+
+                <%= react_component "EditableTextArea", { auth_token: current_user.auth_token, saved_candidate_id: saved_candidate.id, parameter_name: "status", initial_value: saved_candidate.status } %>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% if saved_candidate %>
+  </div>
+<% else %>
+  </a>
+<% end %>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mogul Recruiter</title>
+    <%= favicon_link_tag 'favicon.ico' %>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}&libraries=places&region=us&callback=init",
+                    async: true,
+                    defer: true,
+                    'data-turbolinks-eval': false %>
+  </head>
+
+  <body>
+    <div class="layout-container">
+      <%= yield %>
+    </div>
+  </body>
+</html>

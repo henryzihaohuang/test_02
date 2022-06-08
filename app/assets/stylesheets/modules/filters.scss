@@ -1,0 +1,21 @@
+.filter {
+  .filter__name {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 7px;
+    
+    font-size: 15px;
+    font-weight: 700; 
+
+    .filter__name__clear {
+      border: none;
+      color: red;
+      font-size: 12px;
+      font-weight: 400;
+
+      position: relative;
+        top: 3px;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.table {
+  width: 100%;
+
+  border: 1px solid $alto;
+  
+  th, td {
+    border-bottom: 1px solid $alto;
+    padding: 15px;
+  }
+
+  thead {
+    tr {
+      th {
+        font-weight: 700;
+        text-align: left;
+      }
+    }
+  }
+
+  thead,
+  tbody {
+    tr {
+      &:last-of-type {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+  }
+}

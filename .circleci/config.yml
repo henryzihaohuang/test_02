@@ -1,0 +1,73 @@
+version: 2.1
+orbs:
+    ruby: circleci/ruby@1.1.4
+    node: circleci/node@4.7.0
+workflows:
+  lint_and_test:
+    jobs:
+      - lint_ruby
+      - lint_javascript
+      - rspec_test
+jobs:
+  lint_ruby:
+    docker:
+      - image: circleci/ruby:3.0.2-node
+        environment:
+          BUNDLE_JOBS: 4
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          RAILS_ENV: test
+    steps:
+      - checkout
+      - ruby/install-deps
+      - ruby/rubocop-check:
+          format: progress
+          check-path: '--fail-level error --display-only-fail-level-offenses'
+          label: Inspecting with Rubocop
+      - run:
+          name: Install Ruby Dependencies
+          command: bundle install
+  lint_javascript:
+    docker:
+      - image: circleci/node:16.13
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          command: './node_modules/eslint-scope/lib/scope.js ./app/javascript/components --ext .js,.jsx'
+          name: Linting with ESLint
+  rspec_test:
+    docker:
+      - image: circleci/ruby:3.0.2-node
+        environment:
+          BUNDLE_JOBS: 4
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: 127.0.0.1
+          PGPASSWORD: ''
+          PGUSER: circleci-recruiter
+          RAILS_ENV: test
+      - image: circleci/postgres:12.1-alpine
+        environment:
+          POSTGRES_DB: recruiter_test
+          POSTGRES_USER: circleci-recruiter
+          POSTGRES_PASSWORD: ""
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run:
+          name: Install psql (required for structure.sql setup)
+          command: sudo apt update && sudo apt install postgresql-client || true
+
+      - run:
+          command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
+          name: Wait for DB
+
+      - run:
+          name: Set up DB
+          command:
+            bundle exec rails db:create db:schema:load db:seed
+            bundle exec rake db:migrate
+            bundle exec rails db:seed RAILS_ENV=test
+      - ruby/rspec-test

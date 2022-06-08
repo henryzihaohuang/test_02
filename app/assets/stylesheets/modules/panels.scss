@@ -1,0 +1,27 @@
+.panel {
+  background-color: #fff;
+  border: 1px solid $alto;
+  padding: 20px;
+  padding-bottom: 50%;
+
+  .panel__title {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    .panel__title__clear {
+      color: red;
+      font-size: 12px;
+      font-weight: 400;
+
+      position: relative;
+        top: 7px;
+    }
+  }
+
+  .panel__content {
+    margin-top: 10px;
+  }
+}

@@ -1,0 +1,16 @@
+.form {
+  &.form--search {
+    .field {
+      flex: 0.6;
+    }
+  }
+
+  &.form--inline {
+    display: flex;
+  }
+
+  &.form--centered {
+    display: flex;
+    justify-content: center;
+  }
+}

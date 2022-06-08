@@ -1,0 +1,18 @@
+.saved-candidates {
+  margin-top: 0;
+  margin-bottom: 25px;
+
+  background-color: #fff;
+  border: 1px solid $alto;
+  list-style-type: none;
+  padding-left: 0;
+
+  > li {
+    border-top: 1px solid $alto;
+    padding: 20px;
+
+    &:first-of-type {
+      border-top: 0;
+    }
+  }
+}

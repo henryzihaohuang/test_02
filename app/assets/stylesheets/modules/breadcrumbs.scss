@@ -1,0 +1,41 @@
+.breadcrumbs {
+  display: flex;
+
+  margin-top: 0;
+  margin-bottom: 20px;
+
+  list-style-type: none;
+  padding-left: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+
+    margin-right: 10px;
+
+    font-weight: 700;
+
+    a {
+      font-weight: 400;
+    }
+
+    &::after {
+      display: block;
+
+      width: 5px;
+      height: 10px;
+
+      margin-left: 10px;
+
+      background-image: image-url("caret_right@2x.png");
+      background-size: 5px 10px;
+      content: "";
+    }
+
+    &:last-child {
+      &::after {
+        display: none;
+      }
+    }
+  }
+}

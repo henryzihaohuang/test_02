@@ -1,0 +1,25 @@
+.search-results {
+  height: 100%;
+
+  margin-bottom: 200px;
+  margin-top: 0;
+  
+  background-color: #fff;
+  border: 1px solid $alto;
+  list-style-type: none;
+  padding-left: 0;
+
+  > li {
+    border-top: 1px solid $alto;
+    cursor: pointer;
+    padding: 20px;
+
+    &:hover {
+      background-color: $concrete;
+    }
+
+    &:first-of-type {
+      border-top: 0;
+    }
+  }
+}

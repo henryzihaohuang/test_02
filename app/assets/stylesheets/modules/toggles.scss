@@ -1,0 +1,47 @@
+.toggle {
+  margin-bottom: 10px;
+
+  input[type="checkbox"] {
+    display: none;
+
+    &:checked {
+      & + label {
+        .toggle__slider {
+          background-color:#14C818;
+
+          &::before {
+            margin-left: auto;
+          }
+        }
+      }
+    }
+  }
+
+  label {
+    display: flex;
+
+    cursor: pointer;
+
+    .toggle__slider {
+      width: 34px;
+      height: 20px;
+
+      margin-right: 8px;
+
+      background-color: #bdbdbd;
+      border-radius: 20px;
+      padding: 3px;
+
+      &::before {
+        display: block;
+
+        width: 14px;
+        height: 14px;
+
+        background-color: #fff;
+        border-radius: 7px;
+        content: "";
+      }
+    }
+  }
+}
