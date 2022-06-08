@@ -84,3 +84,6 @@ gem 'rubyzip', '~> 2.3'
 gem "rexml", "~> 3.2"
 gem "rgeo", "~> 2.4"
 gem "rgeo-geojson", "~> 2.1"
+gem 'rubocop', '~> 1.21', require: false
+gem 'rubocop-rails', require: false
+gem 'rubocop-rspec', require: false
