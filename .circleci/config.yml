@@ -34,9 +34,6 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
-      - run:
-          command: './node_modules/eslint-scope/lib/scope.js ./app/javascript/components --ext .js,.jsx'
-          name: Linting with ESLint
   rspec_test:
     docker:
       - image: circleci/ruby:3.0.2-node
@@ -57,12 +54,12 @@ jobs:
       - checkout
       - ruby/install-deps
       - run:
-          name: Install psql (required for structure.sql setup)
+          name: Install psql
           command: sudo apt update && sudo apt install postgresql-client || true
 
       - run:
-          command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
           name: Wait for DB
+          command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
 
       - run:
           name: Set up DB
@@ -70,4 +67,6 @@ jobs:
             bundle exec rails db:create db:schema:load db:seed
             bundle exec rake db:migrate
             bundle exec rails db:seed RAILS_ENV=test
+            redis-server
+            elasticsearch
       - ruby/rspec-test
