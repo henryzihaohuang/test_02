@@ -55,8 +55,12 @@ jobs:
       - checkout
       - ruby/install-deps
       - run:
-          name: Install psql (required for structure.sql setup)
-          command: sudo apt update && sudo apt install postgresql-client || true
+          name: Install redis
+          command: sudo apt-get install redis-tools ; while ! redis-cli ping 2>/dev/null ; do sleep 1 ; done
+
+      - run:
+          command: 'dockerize -wait tcp://localhost:6379 -timeout 1m'
+          name: Wait for DB
 
       - run:
           command: 'bundle exec rails db:structure:load --trace'
