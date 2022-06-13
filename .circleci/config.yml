@@ -59,10 +59,6 @@ jobs:
           command: sudo apt update && sudo apt install postgresql-client || true
 
       - run:
-          command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
-          name: Wait for DB
-
-      - run:
           command: 'bundle exec rails db:structure:load --trace'
           name: Database setup
       - ruby/rspec-test
