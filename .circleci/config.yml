@@ -36,7 +36,7 @@ jobs:
           pkg-manager: yarn
   rspec_test:
     docker:
-      - image: circleci/ruby:3.0.1-node
+      - image: circleci/ruby:3.0.2-node
       - image: circleci/redis
         environment:
           BUNDLE_JOBS: 4
