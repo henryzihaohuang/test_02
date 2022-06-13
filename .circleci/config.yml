@@ -37,7 +37,7 @@ jobs:
   rspec_test:
     docker:
       - image: circleci/ruby:3.0.2-node
-      - image: circleci/redis
+      - image: redis:4.0.6
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
@@ -62,7 +62,11 @@ jobs:
           command: 'dockerize -wait tcp://localhost:6379 -timeout 1m'
           name: Wait for DB
 
-      - run:
-          command: 'bundle exec rails db:structure:load --trace'
-          name: Database setup
+       - run:
+          name: Run Rspec
+          command: |
+            RAILS_ENV=continous_integration bundle exec rspec --format RspecJunitFormatter -o /tmp/test-results/rspec.xml
+      
+      - store_test_results:
+          path: /tmp/test-results
       - ruby/rspec-test
