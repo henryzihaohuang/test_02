@@ -64,9 +64,9 @@ jobs:
 
        - run:
           name: Run Rspec
-          command: |
-            RAILS_ENV=continous_integration bundle exec rspec --format RspecJunitFormatter -o /tmp/test-results/rspec.xml
+          command: RAILS_ENV=continous_integration bundle exec rspec --format RspecJunitFormatter -o /tmp/test-results/rspec.xml
       
       - store_test_results:
           path: /tmp/test-results
+          
       - ruby/rspec-test
