@@ -50,7 +50,7 @@ jobs:
         environment:
           POSTGRES_DB: recruiter_test
           POSTGRES_USER: circleci-recruiter
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: ''
     steps:
       - checkout
       - ruby/install-deps
@@ -59,14 +59,14 @@ jobs:
           command: sudo apt-get install ruby-redis ; while ! redis-cli ping 2>/dev/null ; do sleep 1 ; done
 
       - run:
-          command: 'dockerize -wait tcp://localhost:6379 -timeout 1m'
           name: Wait for DB
+          command: 'dockerize -wait tcp://localhost:6379 -timeout 1m'
 
        - run:
           name: Run Rspec
-          command: RAILS_ENV=continous_integration bundle exec rspec --format RspecJunitFormatter -o /tmp/test-results/rspec.xml
+          command: RAILS_ENV=continous_integration bundle exec rspec -o /tmp/test-results/rspec.xml
       
       - store_test_results:
           path: /tmp/test-results
-          
+
       - ruby/rspec-test
