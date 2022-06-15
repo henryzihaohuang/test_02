@@ -55,9 +55,6 @@ jobs:
       - checkout
       - ruby/install-deps
       - run:
-          name: Install psql (required for structure.sql setup)
-          command: sudo apt update && sudo apt install postgresql-client || true
-      - run:
           name: Wait for DB
           command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
       - run:
