@@ -26,7 +26,7 @@ jobs:
           label: Inspecting with Rubocop
       - run:
           name: Install Ruby Dependencies
-          command: 'bundle install'
+          command: bundle install
   lint_javascript:
     docker:
       - image: circleci/node:16.13
@@ -54,9 +54,6 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
-       - run:
-          name: Install Ruby Dependencies
-          command: 'bundle install'
       - run:
           name: Wait for DB
           command: 'dockerize -wait http://localhost:5432 -timeout 1m'
