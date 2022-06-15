@@ -54,6 +54,9 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
+       - run:
+          name: Install Ruby Dependencies
+          command: bundle install
       - run:
           name: Wait for DB
           command: 'dockerize -wait http://localhost:5432 -timeout 1m'
