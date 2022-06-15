@@ -62,7 +62,8 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Database setup
-          command: bundle exec rails db:create db:schema:load db:seed
+          command: 
+            bundle exec rails db:create db:schema:load db:seed RAILS_ENV=test
       - ruby/rspec-test
       - store_test_results:
           path: test_results
