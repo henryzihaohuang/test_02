@@ -33,7 +33,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          pkg-manager: yarn
+          pkg-manager: npm
   run_rspec:
     working_directory: ~/recruiter
     docker:
@@ -62,7 +62,7 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Database setup
-          command: rails db:create db:schema:load db:seed --trace
+          command: bundle exec rails db:create db:schema:load db:seed --trace
       - ruby/rspec-test
       - store_test_results:
           path: test_results
