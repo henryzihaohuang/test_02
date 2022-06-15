@@ -17,6 +17,20 @@ RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
+  test_cluster_config = { port: 9200, number_of_nodes: 1, timeout: 120, network_host: '_local_' }
+
+  config.before :each, elasticsearch: true do
+    Elasticsearch::Extensions::Test::Cluster.start(test_cluster_config) unless Elasticsearch::Extensions::Test::Cluster.running?(test_cluster_config)
+  end
+
+  config.after :each, elasticsearch: true do
+    Elasticsearch::Model.client.indices.delete index: '_all'
+  end
+
+  config.after :suite do
+    Elasticsearch::Extensions::Test::Cluster.stop(port: 9200) if Elasticsearch::Extensions::Test::Cluster.running?
+  end
+
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods
