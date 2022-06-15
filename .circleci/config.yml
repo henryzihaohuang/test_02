@@ -51,7 +51,7 @@ jobs:
           POSTGRES_USER: circleci-recruiter
           POSTGRES_PASSWORD: "test"
       - image: redis
-      - image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+      - image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
         environment:
           - cluster.name: group-project-test-cluster
           - xpack.security.enabled: false
