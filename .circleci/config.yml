@@ -1,13 +1,13 @@
 version: 2.1
 orbs:
-    ruby: circleci/ruby@1.1.4
+    ruby: circleci/ruby@1.2.0
     node: circleci/node@4.7.0
 workflows:
   lint_and_test:
     jobs:
       - lint_ruby
       - lint_javascript
-      - rspec_test
+      - test_ruby
 jobs:
   lint_ruby:
     docker:
@@ -34,35 +34,35 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
-  rspec_test:
+  test-ruby:
+    working_directory: ~/recruiter
     docker:
       - image: circleci/ruby:3.0.2-node
-      - image: redis:4.0.6
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           PGHOST: 127.0.0.1
-          PGPASSWORD: ''
           PGUSER: circleci-recruiter
           RAILS_ENV: test
-      - image: circleci/postgres:12.1-alpine
+      - image: circleci/postgres:12.7
         environment:
           POSTGRES_DB: recruiter_test
           POSTGRES_USER: circleci-recruiter
-          POSTGRES_PASSWORD: ""
-      - working_directory: ~/repo
+          POSTGRES_PASSWORD: "test"
+      - image: redis
     steps:
       - checkout
       - ruby/install-deps
       - run:
-          name: Database setup
-          command: 'bundle exec rails db:create db:schema:load db:seed'
+          name: Install psql (required for structure.sql setup)
+          command: sudo apt update && sudo apt install postgresql-client || true
       - run:
           name: Wait for DB
-          command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
-          name: Run rspecs
-          command: 'bundle exec rails db:seed RAILS_ENV=test'
-          
+          name: Database setup
+          command: rails db:create db:schema:load db:seed --trace
       - ruby/rspec-test
+      - store_test_results:
+          path: test_results
