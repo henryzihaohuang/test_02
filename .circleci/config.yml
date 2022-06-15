@@ -55,7 +55,7 @@ jobs:
       - checkout
       - ruby/install-deps
       - run:
-          name: Install psql (required for structure.sql setup)
+          name: Install psql
           command: sudo apt update && sudo apt install postgresql-client || true
       - run:
           name: Wait for DB
