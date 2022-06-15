@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Candidate, type: :model do
-  let(:candidate) { FactoryBot.create(:candidate, full_name: 'John Doe') }
+  let(:candidate) { FactoryBot.create(:candidate, full_name: 'John Doe', uid: 1) }
   let(:candidate_without_experiences) { FactoryBot.create(:candidate) }
   let(:candidate_without_educations) { FactoryBot.create(:candidate) }
   
