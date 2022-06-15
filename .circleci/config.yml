@@ -56,7 +56,7 @@ jobs:
       - ruby/install-deps
       - run:
           name: Wait for DB
-          command: 'dockerize -wait -timeout 1m'
+          command: 'dockerize -wait http://localhost:5432 -timeout 1m'
       - run:
           name: Database setup
           command: 'bundle exec rails db:create db:schema:load db:seed'
