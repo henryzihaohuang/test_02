@@ -55,13 +55,14 @@ jobs:
       - checkout
       - ruby/install-deps
       - run:
-          name: Wait for DB
-          command: 'dockerize -wait tcp://localhost:6379 -timeout 1m'
-
+          name: Install psql (required for structure.sql setup)
+          command: sudo apt update && sudo apt install postgresql-client || true
       - run:
           name: Database setup
           command: 'bundle exec rails db:create db:schema:load db:seed'
-
+      - ruby/rspec-test
+          name: Wait for DB
+          command: 'dockerize -wait tcp://localhost:6379 -timeout 1m'
       - run:
           name: Run rspecs
           command: 'bundle exec rails db:seed RAILS_ENV=test'
