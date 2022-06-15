@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
-    ruby: circleci/ruby@1.1.4
-    node: circleci/node@4.7.0
+    ruby: cimg/ruby@1.1.4
+    node: cimg/node@4.7.0
 workflows:
   lint_and_test:
     jobs:
@@ -11,7 +11,7 @@ workflows:
 jobs:
   lint_ruby:
     docker:
-      - image: circleci/ruby:3.0.2-node
+      - image: cimg/ruby:3.0.2-node
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
@@ -29,16 +29,16 @@ jobs:
           command: bundle install
   lint_javascript:
     docker:
-      - image: circleci/node:16.13
+      - image: cimg/node:16.13
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
   rspec_test:
     docker:
-      - image: circleci/ruby:3.0.2-node
-      - image: circleci/postgres:14.2.0
-      - image: redis:4.0.6
+      - image: cimg/ruby:3.0.2-node
+      - image: cimg/postgres:14.2.0
+      - image: cimg/redis:4.0.6
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
@@ -55,9 +55,9 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
-      - run:
-          name: Install psql (required for structure.sql setup)
-          command: sudo apt update && sudo apt install postgresql-client || true
+      # - run:
+      #     name: Install psql (required for structure.sql setup)
+      #     command: sudo apt update && sudo apt install postgresql-client || true
       - run:
           name: Wait for DB
           command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
