@@ -55,35 +55,19 @@ jobs:
       - checkout
       - ruby/install-deps
       - run:
-          name: Configure Bundler
-          command: gem install bundler
-      - run:
-          name: Bundle Install
-          command: bundle check || bundle install
+          name: Install redis
+          command: sudo apt-get install ruby-redis ; while ! redis-cli ping 2>/dev/null ; do sleep 1 ; done
 
-      - save_cache:
-          paths:
-            - vendor/bundle
-
-      # Preparing database
       - run:
           name: Wait for DB
-          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 1m
+          command: 'dockerize -wait tcp://localhost:6379 -timeout 1m'
 
       - run:
           name: Database setup
-          command: bundle exec rails db:create db:schema:load --trace
+          command: 'bundle exec rails db:create db:schema:load db:seed'
 
       - run:
-          name: Run rspec in parallel
-          command: |
-            bundle exec rspec --profile 10 \
-                             --format RspecJunitFormatter \
-                             --out /tmp/test-results/rspec.xml \
-                             --format progress \
-                             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-      # Save artifacts
-      - store_test_results:
-          path: /tmp/test-results
+          name: Run rspecs
+          command: 'bundle exec rails db:seed RAILS_ENV=test'
           
       - ruby/rspec-test
