@@ -1,7 +1,4 @@
 version: 2.1
-orbs:
-    ruby: cimg/ruby@1.1.4
-    node: cimg/node@4.7.0
 workflows:
   lint_and_test:
     jobs:
@@ -55,9 +52,9 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
-      # - run:
-      #     name: Install psql (required for structure.sql setup)
-      #     command: sudo apt update && sudo apt install postgresql-client || true
+      - run:
+          name: Install psql (required for structure.sql setup)
+          command: sudo apt update && sudo apt install postgresql-client || true
       - run:
           name: Wait for DB
           command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
