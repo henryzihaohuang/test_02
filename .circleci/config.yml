@@ -7,7 +7,7 @@ workflows:
     jobs:
       - lint_ruby
       - lint_javascript
-      - test_ruby
+      - rspec
 jobs:
   lint_ruby:
     docker:
