@@ -55,10 +55,6 @@ jobs:
       - checkout
       - ruby/install-deps
       - run:
-          name: Install redis
-          command: sudo apt-get install ruby-redis ; while ! redis-cli ping 2>/dev/null ; do sleep 1 ; done
-
-      - run:
           name: Wait for DB
           command: 'dockerize -wait tcp://localhost:6379 -timeout 1m'
 
