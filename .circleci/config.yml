@@ -65,6 +65,9 @@ jobs:
           command: 
             bundle exec rails db:create db:schema:load db:seed RAILS_ENV=test
       - run:
+          name: Run Elastic Search
+          command: elasticsearch
+      - run:
           name: Run Rspecs
           command:
             bundle exec rspec
