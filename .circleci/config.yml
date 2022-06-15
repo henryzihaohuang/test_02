@@ -64,6 +64,9 @@ jobs:
           name: Database setup
           command: 
             bundle exec rails db:create db:schema:load db:seed RAILS_ENV=test
-      - ruby/rspec-test
+      - run:
+          name: Run Rspecs
+          command:
+            bundle exec rspec
       - store_test_results:
           path: test_results
