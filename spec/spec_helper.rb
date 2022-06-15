@@ -23,10 +23,6 @@ RSpec.configure do |config|
     Elasticsearch::Extensions::Test::Cluster.start(test_cluster_config) unless Elasticsearch::Extensions::Test::Cluster.running?(test_cluster_config)
   end
 
-  config.after :each, elasticsearch: true do
-    Elasticsearch::Model.client.indices.delete index: '_all'
-  end
-
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods
