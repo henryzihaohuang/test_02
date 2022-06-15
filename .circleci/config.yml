@@ -74,7 +74,7 @@ jobs:
             bundle exec rails db:create db:schema:load RAILS_ENV=test
       - run :
           name: Index candidates
-          command: bundle exec rails environment elasticsearch:import:model CLASS='Candidate'
+          command: bundle exec rails environment elasticsearch:import:all DIR=app/models
       - run:
           name: Run Rspecs
           command:
