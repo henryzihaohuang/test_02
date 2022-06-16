@@ -20,8 +20,7 @@ RSpec.configure do |config|
   test_cluster_config = { port: 9200, number_of_nodes: 1, timeout: 120, network_host: '_local_' }
 
   config.before :each, elasticsearch: true do
-    unless Elasticsearch::Extensions::Test::Cluster.running?(test_cluster_config)
-      Elasticsearch::Extensions::Test::Cluster.start(test_cluster_config)
+    Elasticsearch::Extensions::Test::Cluster.start(test_cluster_config) unless Elasticsearch::Extensions::Test::Cluster.running?(test_cluster_config)
   end
 
   config.expect_with :rspec do |expectations|
