@@ -49,7 +49,7 @@ jobs:
         environment:
           POSTGRES_DB: recruiter_test
           POSTGRES_USER: circleci-recruiter
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: "test"
       - image: redis
       - image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
         environment:
