@@ -72,9 +72,16 @@ jobs:
           name: Database setup
           command: 
             bundle exec rails db:create db:schema:load RAILS_ENV=test
-      - run:
-          name: Run Rspecs
-          command:
-            bundle exec rspec
+      # - run:
+      #     name: Run Rspecs
+      #     command:
+      #       bundle exec rspec
+      - run: 
+          name: Running test ...
+          command: bundle exec rspec --profile 10 \
+                      --format RspecJunitFormatter \
+                      --out test_results/rspec.xml \
+                      --format progress \
+                      $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
       - store_test_results:
           path: test_results

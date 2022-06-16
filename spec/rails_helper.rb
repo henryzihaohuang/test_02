@@ -9,12 +9,6 @@ require 'rspec/rails'
 require 'capybara/rspec'
 
 # Build initial indices if not present, e.g. CircleCI
-[Candidate].each do |model|
-  unless model.__elasticsearch__.index_exists? index: model.__elasticsearch__.index_name
-    model.__elasticsearch__.create_index!(force: true)
-    sleep 2
-  end
-end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -40,9 +34,15 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  [Candidate].each do |model|
+    unless model.__elasticsearch__.index_exists? index: model.__elasticsearch__.index_name
+      model.__elasticsearch__.create_index!(force: true)
+      sleep 2
+    end
+  end
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
+  
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
