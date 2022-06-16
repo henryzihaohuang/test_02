@@ -301,5 +301,4 @@ class Candidate < ApplicationRecord
       nil
     end
   end
-  Candidate.import
 end
