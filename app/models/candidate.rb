@@ -1,4 +1,3 @@
-require 'elasticsearch/model'
 class Candidate < ApplicationRecord
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
