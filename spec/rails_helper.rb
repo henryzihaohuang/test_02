@@ -34,12 +34,6 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  [Candidate].each do |model|
-    unless model.__elasticsearch__.index_exists? index: model.__elasticsearch__.index_name
-      model.__elasticsearch__.create_index!(force: true)
-      sleep 2
-    end
-  end
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   
