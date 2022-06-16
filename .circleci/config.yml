@@ -75,7 +75,7 @@ jobs:
       - run:
           name: Import indices to models
           command: 
-            bundle exec rake environment elasticsearch:import:model CLASS='Candidate'
+            bundle exec rake searchkick:reindex
       # - run:
       #     name: Run Rspecs
       #     command:
