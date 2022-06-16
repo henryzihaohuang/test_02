@@ -1,4 +1,7 @@
+require 'elasticsearch/model'
 class Candidate < ApplicationRecord
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
   geocoded_by :location
 
   searchkick mappings: {
@@ -298,4 +301,5 @@ class Candidate < ApplicationRecord
       nil
     end
   end
+  Candidate.import
 end
