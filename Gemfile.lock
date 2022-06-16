@@ -123,6 +123,7 @@ GEM
       elasticsearch-transport (= 7.12.0)
     elasticsearch-api (7.12.0)
       multi_json
+    elasticsearch-rails (7.2.1)
     elasticsearch-transport (7.12.0)
       faraday (~> 1)
       multi_json
@@ -383,6 +384,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   connection_pool (~> 2.2)
   dotenv-rails (~> 2.7)
+  elasticsearch-rails
   factory_bot_rails
   faker
   geocoder (~> 1.6)

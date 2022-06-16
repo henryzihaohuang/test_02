@@ -72,6 +72,10 @@ jobs:
           name: Database setup
           command: 
             bundle exec rails db:create db:schema:load RAILS_ENV=test
+      - run:
+          name: Import indices to models
+          command: 
+            bundle exec rake environment elasticsearch:import:model CLASS='Candidate'
       # - run:
       #     name: Run Rspecs
       #     command:

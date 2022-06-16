@@ -87,3 +87,4 @@ gem "rgeo-geojson", "~> 2.1"
 gem 'rubocop', '~> 1.21', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
+gem 'elasticsearch-rails'
