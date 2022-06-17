@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Experience, type: :model do
-  let(:candidate) { FactoryBot.create(:candidate) }
+  let(:candidate) { create(:candidate, uid: 1000) }
+  let(:experience) { create(:experience, candidate: candidate) }
 
   describe 'associations' do 
     it { should belong_to(:candidate) }
@@ -14,8 +15,6 @@ RSpec.describe Experience, type: :model do
   end
 
   describe '.reverse_chronological' do 
-    let(:candidate) { FactoryBot.create(:candidate) }
-    
     it 'should return educations in descending order' do 
       first_experience = FactoryBot.create(
         :experience, 

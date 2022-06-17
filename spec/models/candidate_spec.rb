@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Candidate, type: :model do
-  let(:candidate) { FactoryBot.create(:candidate, full_name: 'John Doe', uid: 100) }
-  let(:candidate_without_experiences) { FactoryBot.create(:candidate) }
-  let(:candidate_without_educations) { FactoryBot.create(:candidate) }
+  let(:candidate) { FactoryBot.create(:candidate, full_name: 'John Doe', uid: 66) }
+  let(:candidate_without_experiences) { create(:candidate, full_name: 'test', uid: 60) }
+  let(:candidate_without_educations) { create(:candidate, full_name: 'test', uid: 62) }
   
   describe 'associations' do 
     it { should have_many(:educations) }
@@ -165,9 +165,8 @@ RSpec.describe Candidate, type: :model do
     end
 
     describe '#veteran?' do 
-      let(:veteran_candidate) { FactoryBot.create(:candidate) }
-      let(:veteran_candidate_from_bio) { FactoryBot.create(
-        :candidate, 
+      let(:veteran_candidate) { create(:candidate) }
+      let(:veteran_candidate_from_bio) { create(:candidate,
         bio: 'I was in the United States Military Academy.'
       )}
 
