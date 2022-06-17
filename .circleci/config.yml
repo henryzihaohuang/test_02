@@ -76,13 +76,9 @@ jobs:
           name: Import indices to models
           command: 
             bundle exec rake searchkick:reindex CLASS=Candidate
-      # - run:
-      #     name: Run Rspecs
-      #     command:
-      #       bundle exec rspec
-      - run: 
-          name: Running test ...
-          command: bundle exec rspec
-                      $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run:
+          name: Run Rspecs
+          command:
+            bundle exec rspec
       - store_test_results:
           path: test_results
