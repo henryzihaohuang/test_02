@@ -46,14 +46,14 @@ RSpec.describe Experience, type: :model do
   describe '#normalized_start_month' do 
     context 'when a start month is present' do 
       it 'returns the start month' do 
-        experience = Experience.create!(candidate: candidate, start_month: 12)
+        experience = Experience.create!(uid: 1, candidate: candidate, start_month: 12)
         expect(experience.normalized_start_month).to eq(12)
       end
     end
 
     context 'when no start month is present' do 
       it 'returns 1' do 
-        experience = Experience.create!(start_month: nil)
+        experience = Experience.create!(uid: 1, candidate: canddiate, start_month: nil)
         expect(experience.normalized_start_month).to eq(1)
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe Experience, type: :model do
   describe '#normalized_end_year' do 
     context 'when an end year is present' do 
       it 'returns the end year' do 
-        experience = Experience.create!(candidate: candidate, end_year: 5)
+        experience = Experience.create!(uid: 1, candidate: candidate, end_year: 5)
         expect(experience.normalized_end_year).to eq(5)
       end
     end
@@ -78,14 +78,14 @@ RSpec.describe Experience, type: :model do
   describe '#normalized_end_month' do
     context 'when an end month is present' do 
       it 'returns the end month' do 
-        experience = Experience.create!(candidate: candidate, end_month: 2)
+        experience = Experience.create!(uid: 1, candidate: candidate, end_month: 2)
         expect(experience.normalized_end_month).to eq(2)
       end
     end
 
     context 'when no end month is present' do
       it 'returns the current month' do 
-        experience = Experience.create!(candidate: candidate, end_month: nil)
+        experience = Experience.create!(uid: 1, candidate: candidate, end_month: nil)
         expect(experience.normalized_end_month).to eq(Date.current.month)
       end
     end
@@ -96,6 +96,7 @@ RSpec.describe Experience, type: :model do
       it 'returns the calculated duration' do 
         experience_with_same_months = Experience.create!(
           candidate: candidate, 
+          uid: 1, 
           start_year: 2000,
           start_month: 1,
           end_year: 2020,
@@ -103,6 +104,7 @@ RSpec.describe Experience, type: :model do
         )
         experience_with_different_months = Experience.create!(
           candidate: candidate, 
+          uid: 1, 
           start_year: 1990,
           start_month: 1,
           end_year: 1995,
@@ -127,6 +129,7 @@ RSpec.describe Experience, type: :model do
     context 'when a start month is present' do
       it 'returns the start date' do 
         experience = Experience.create!(
+          uid: 1, 
           candidate: candidate, 
           start_year: 2000,
           start_month: 1,
@@ -139,12 +142,14 @@ RSpec.describe Experience, type: :model do
     context 'when no start month is present' do 
       it 'returns the start year' do 
         experience_with_start_year = Experience.create!(
+          uid: 1, 
           candidate: candidate, 
           start_month: nil,
           start_year: 2002
         )
 
         experience_with_nil_start_year = Experience.create!(
+          uid: 1, 
           candidate: candidate, 
           start_month: nil,
           start_year: nil
@@ -160,6 +165,7 @@ RSpec.describe Experience, type: :model do
     context 'when an end month is present' do
       it 'returns the end date' do 
         experience = Experience.create!(
+          uid: 1, 
           candidate: candidate, 
           end_year: 2000,
           end_month: 1,
@@ -173,6 +179,7 @@ RSpec.describe Experience, type: :model do
       context 'when an end year is present' do 
         it 'returns the end year' do 
           experience = Experience.create!(
+            uid: 1, 
             candidate: candidate, 
             end_year: 2020,
             end_month: nil,
@@ -185,6 +192,7 @@ RSpec.describe Experience, type: :model do
       context 'when an end year is not present' do 
         it 'returns "Present"' do 
           experience = Experience.create!(
+            uid: 1, 
             candidate: candidate, 
             end_year: nil,
             end_month: nil,
@@ -199,6 +207,7 @@ RSpec.describe Experience, type: :model do
   describe '#date' do 
     it 'returns the start date - end date' do 
       full_date_experience = Experience.create!(
+        uid: 1, 
         candidate: candidate, 
         start_year: 1991,
         start_month: 6,
@@ -207,6 +216,7 @@ RSpec.describe Experience, type: :model do
       )
 
       only_year_end_start_end = Experience.create!(
+        uid: 1, 
         candidate: candidate, 
         start_year: 2022,
         start_month: nil,
