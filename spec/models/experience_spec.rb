@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Experience, type: :model do
-  let(:candidate) { create(:candidate, uid: 1000) }
+  let(:candidate) { create(:candidate, uid: 2333) }
   let(:experience) { create(:experience, candidate: candidate) }
 
   describe 'associations' do 
