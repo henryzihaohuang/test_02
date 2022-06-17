@@ -46,14 +46,14 @@ RSpec.describe Experience, type: :model do
   describe '#normalized_start_month' do 
     context 'when a start month is present' do 
       it 'returns the start month' do 
-        experience = FactoryBot.create(:experience, start_month: 12)
+        experience = Experience.create!(start_month: 12)
         expect(experience.normalized_start_month).to eq(12)
       end
     end
 
     context 'when no start month is present' do 
       it 'returns 1' do 
-        experience = FactoryBot.create(:experience, start_month: nil)
+        experience = Experience.create!(start_month: nil)
         expect(experience.normalized_start_month).to eq(1)
       end
     end
@@ -62,14 +62,14 @@ RSpec.describe Experience, type: :model do
   describe '#normalized_end_year' do 
     context 'when an end year is present' do 
       it 'returns the end year' do 
-        experience = FactoryBot.create(:experience, end_year: 5)
+        experience = Experience.create!(end_year: 5)
         expect(experience.normalized_end_year).to eq(5)
       end
     end
 
     context 'when no end year is present' do 
       it 'returns the current year' do 
-        experience = FactoryBot.create(:experience, end_year: nil)
+        experience = Experience.create!(end_year: nil)
         expect(experience.normalized_end_year).to eq(Date.current.year)
       end
     end
@@ -78,14 +78,14 @@ RSpec.describe Experience, type: :model do
   describe '#normalized_end_month' do
     context 'when an end month is present' do 
       it 'returns the end month' do 
-        experience = FactoryBot.create(:experience, end_month: 2)
+        experience = Experience.create!(end_month: 2)
         expect(experience.normalized_end_month).to eq(2)
       end
     end
 
     context 'when no end month is present' do
       it 'returns the current month' do 
-        experience = FactoryBot.create(:experience, end_month: nil)
+        experience = Experience.create!(end_month: nil)
         expect(experience.normalized_end_month).to eq(Date.current.month)
       end
     end
