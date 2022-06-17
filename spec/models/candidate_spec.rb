@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Candidate, type: :model do
-  let(:candidate) { FactoryBot.create(:candidate, full_name: 'John Doe', uid: 66) }
+  let(:candidate) { create(:candidate, full_name: 'John Doe', uid: 66) }
   let(:candidate_without_experiences) { create(:candidate, full_name: 'test', uid: 60) }
   let(:candidate_without_educations) { create(:candidate, full_name: 'test', uid: 62) }
   
@@ -177,8 +177,7 @@ RSpec.describe Candidate, type: :model do
 
       context 'with a veteran keyword in an experience title' do 
         before do 
-          veteran_title_experience = FactoryBot.create(
-            :experience,
+          veteran_title_experience = Experience.create!(uid:1000,
             title: 'Enlisted',
             candidate_id: veteran_candidate.id
           )  
@@ -190,8 +189,7 @@ RSpec.describe Candidate, type: :model do
 
       context 'with a veteran keyword in the company name of an experience' do 
         before do
-          veteran_experience = FactoryBot.create(
-            :experience,
+          veteran_experience = Experience.create!(uid:1001,
             company_name: 'United States Military Academy',
             candidate_id: veteran_candidate.id
           )
@@ -210,11 +208,11 @@ RSpec.describe Candidate, type: :model do
 
       context 'with a veteran keyword in the school name of an education' do 
         before do 
-          FactoryBot.create(
+          let(:vet_experience5) { create(
             :education, 
             school_name: "United States Air Force Academy",
-            candidate_id: veteran_candidate.id
-          )
+            candidate_id: veteran_candidate.id)
+          }
         end
 
         subject { veteran_candidate.veteran? }
@@ -223,11 +221,11 @@ RSpec.describe Candidate, type: :model do
 
       context 'with a veteran keyword in the degree of an education' do 
         before do 
-          FactoryBot.create(
+          let(:vet_experience4) { create(
             :education, 
             degree: "DD214",
-            candidate_id: veteran_candidate.id
-          )
+            candidate_id: veteran_candidate.id)
+          }
         end
 
         subject { veteran_candidate.veteran? }
@@ -236,11 +234,11 @@ RSpec.describe Candidate, type: :model do
 
       context 'with a veteran keyword in the description of an education' do 
         before do
-          education = FactoryBot.create(
+          let(:vet_experience3) { create(
             :education, 
             description: 'enlisted',
-            candidate_id: veteran_candidate.id
-          )
+            candidate_id: veteran_candidate.id)
+          }
         end
         
         subject { veteran_candidate.veteran? }
@@ -248,12 +246,12 @@ RSpec.describe Candidate, type: :model do
       end
 
       context 'with a veteran keyword in the activities and societies of an education' do 
-        before do 
-          FactoryBot.create(
+        before do
+          let(:vet_experience2) { create(
             :education, 
             activities_and_societies: "I was a part of the active duty station",
-            candidate_id: veteran_candidate.id
-          )
+            candidate_id: veteran_candidate.id)
+          }
         end
 
         subject { veteran_candidate.veteran? }
@@ -272,6 +270,11 @@ RSpec.describe Candidate, type: :model do
       
       context 'with a disability keyword in the description of an experience' do 
         before do 
+          let(:vet_experience) { create(
+            :education, 
+            activities_and_societies: "I was a part of the active duty station",
+            candidate_id: veteran_candidate.id)
+          }
           FactoryBot.create(
             :experience,
             description: 'Left due to being visually impaired',
