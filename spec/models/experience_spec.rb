@@ -46,7 +46,7 @@ RSpec.describe Experience, type: :model do
   describe '#normalized_start_month' do 
     context 'when a start month is present' do 
       it 'returns the start month' do 
-        experience = Experience.create!(start_month: 12)
+        experience = Experience.create!(candidate: candidate, start_month: 12)
         expect(experience.normalized_start_month).to eq(12)
       end
     end
@@ -62,14 +62,14 @@ RSpec.describe Experience, type: :model do
   describe '#normalized_end_year' do 
     context 'when an end year is present' do 
       it 'returns the end year' do 
-        experience = Experience.create!(end_year: 5)
+        experience = Experience.create!(candidate: candidate, end_year: 5)
         expect(experience.normalized_end_year).to eq(5)
       end
     end
 
     context 'when no end year is present' do 
       it 'returns the current year' do 
-        experience = Experience.create!(end_year: nil)
+        experience = Experience.create!(candidate: candidate, end_year: nil)
         expect(experience.normalized_end_year).to eq(Date.current.year)
       end
     end
@@ -78,14 +78,14 @@ RSpec.describe Experience, type: :model do
   describe '#normalized_end_month' do
     context 'when an end month is present' do 
       it 'returns the end month' do 
-        experience = Experience.create!(end_month: 2)
+        experience = Experience.create!(candidate: candidate, end_month: 2)
         expect(experience.normalized_end_month).to eq(2)
       end
     end
 
     context 'when no end month is present' do
       it 'returns the current month' do 
-        experience = Experience.create!(end_month: nil)
+        experience = Experience.create!(candidate: candidate, end_month: nil)
         expect(experience.normalized_end_month).to eq(Date.current.month)
       end
     end
@@ -94,15 +94,15 @@ RSpec.describe Experience, type: :model do
   describe '#duration_in_years' do
     context 'when a start year is present' do 
       it 'returns the calculated duration' do 
-        experience_with_same_months = FactoryBot.create(
-          :experience,
+        experience_with_same_months = Experience.create!(
+          candidate: candidate, 
           start_year: 2000,
           start_month: 1,
           end_year: 2020,
           end_month: 1
         )
-        experience_with_different_months = FactoryBot.create(
-          :experience,
+        experience_with_different_months = Experience.create!(
+          candidate: candidate, 
           start_year: 1990,
           start_month: 1,
           end_year: 1995,
@@ -117,7 +117,7 @@ RSpec.describe Experience, type: :model do
 
     context 'when no start year is present' do 
       it 'returns 0' do 
-        experience = FactoryBot.create(:experience, start_year: nil)
+        experience = Experience.create!(candidate: candidate, start_year: nil)
         expect(experience.duration_in_years).to eq(0)
       end
     end
@@ -126,8 +126,8 @@ RSpec.describe Experience, type: :model do
   describe '#start_date' do
     context 'when a start month is present' do
       it 'returns the start date' do 
-        experience = FactoryBot.create(
-          :experience,
+        experience = Experience.create!(
+          candidate: candidate, 
           start_year: 2000,
           start_month: 1,
         )
@@ -138,14 +138,14 @@ RSpec.describe Experience, type: :model do
 
     context 'when no start month is present' do 
       it 'returns the start year' do 
-        experience_with_start_year = FactoryBot.create(
-          :experience,
+        experience_with_start_year = Experience.create!(
+          candidate: candidate, 
           start_month: nil,
           start_year: 2002
         )
 
-        experience_with_nil_start_year = FactoryBot.create(
-          :experience,
+        experience_with_nil_start_year = Experience.create!(
+          candidate: candidate, 
           start_month: nil,
           start_year: nil
         )
@@ -159,8 +159,8 @@ RSpec.describe Experience, type: :model do
   describe '#end_date' do 
     context 'when an end month is present' do
       it 'returns the end date' do 
-        experience = FactoryBot.create(
-          :experience,
+        experience = Experience.create!(
+          candidate: candidate, 
           end_year: 2000,
           end_month: 1,
         )
@@ -172,8 +172,8 @@ RSpec.describe Experience, type: :model do
     context 'when no end month is present' do 
       context 'when an end year is present' do 
         it 'returns the end year' do 
-          experience = FactoryBot.create(
-            :experience,
+          experience = Experience.create!(
+            candidate: candidate, 
             end_year: 2020,
             end_month: nil,
           )
@@ -184,8 +184,8 @@ RSpec.describe Experience, type: :model do
 
       context 'when an end year is not present' do 
         it 'returns "Present"' do 
-          experience = FactoryBot.create(
-            :experience,
+          experience = Experience.create!(
+            candidate: candidate, 
             end_year: nil,
             end_month: nil,
           )
@@ -198,16 +198,16 @@ RSpec.describe Experience, type: :model do
 
   describe '#date' do 
     it 'returns the start date - end date' do 
-      full_date_experience = FactoryBot.create(
-        :experience,
+      full_date_experience = Experience.create!(
+        candidate: candidate, 
         start_year: 1991,
         start_month: 6,
         end_year: 2001,
         end_month: 12
       )
 
-      only_year_end_start_end = FactoryBot.create(
-        :experience,
+      only_year_end_start_end = Experience.create!(
+        candidate: candidate, 
         start_year: 2022,
         start_month: nil,
         end_year: 2023,
