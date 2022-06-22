@@ -48,33 +48,33 @@ RSpec.describe Education, type: :model do
     end
   end
 
-  describe "#completed?" do 
-    context 'when the end year & end month are in the past' do 
-      subject { has_graduated_education.completed? }
+  # describe "#completed?" do 
+  #   context 'when the end year & end month are in the past' do 
+  #     subject { has_graduated_education.completed? }
       
-      it { is_expected.to eq(true) }
-    end
+  #     it { is_expected.to eq(true) }
+  #   end
 
-    context 'when the start year & end year are nil' do 
-      subject { education_without_dates.completed? }
+  #   context 'when the start year & end year are nil' do 
+  #     subject { education_without_dates.completed? }
 
-      it { is_expected.to eq(true) }
-    end
+  #     it { is_expected.to eq(true) }
+  #   end
 
-    context 'when the start year exists & end year is nil' do 
-      let(:education) { FactoryBot.build(:education, :without_dates, end_year: nil)}
+  #   context 'when the start year exists & end year is nil' do 
+  #     let(:education) { FactoryBot.build(:education, :without_dates, end_year: nil)}
       
-      it 'should return true' do 
-        expect(education.completed?).to eq(true)
-      end
-    end
+  #     it 'should return true' do 
+  #       expect(education.completed?).to eq(true)
+  #     end
+  #   end
     
-    context 'when the end year and end month are in the future' do 
-      subject { current_student_education.completed? }
+  #   context 'when the end year and end month are in the future' do 
+  #     subject { current_student_education.completed? }
 
-      it { is_expected.to eq(false)}
-    end
-  end
+  #     it { is_expected.to eq(false)}
+  #   end
+  # end
 
   describe '#start_date' do 
     context 'with a start month' do 
@@ -128,9 +128,9 @@ RSpec.describe Education, type: :model do
     end
   end
 
-  describe '#date' do 
-    it 'returns the start and end date' do 
-      expect(education.date).to eq('April 1991 - June 1995')
-    end
-  end
+  # describe '#date' do 
+  #   it 'returns the start and end date' do 
+  #     expect(education.date).to eq('April 1991 - June 1995')
+  #   end
+  # end
 end
