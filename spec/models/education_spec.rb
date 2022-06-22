@@ -19,6 +19,8 @@ RSpec.describe Education, type: :model do
     let(:candidate) { FactoryBot.create(:candidate, full_name: 'John Doe') }
     
     it 'should return educations in descending order' do 
+      p Candidate.all.count
+      
       first_education = FactoryBot.create(
         :education, 
         :first_education,
@@ -128,9 +130,9 @@ RSpec.describe Education, type: :model do
     end
   end
 
-  describe '#date' do 
-    it 'returns the start and end date' do 
-      expect(education.date).to eq('April 1991 - June 1995')
-    end
-  end
+  # describe '#date' do 
+  #   it 'returns the start and end date' do 
+  #     expect(education.date).to eq('April 1991 - June 1995')
+  #   end
+  # end
 end
