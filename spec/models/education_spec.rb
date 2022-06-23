@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Education, type: :model do
-  byebug
   let(:education) { FactoryBot.create(:education, uid: 1)}
   let(:education_without_dates) { create(:education, :without_dates)}
   let(:has_graduated_education) { create(:education, :has_graduated) } 
