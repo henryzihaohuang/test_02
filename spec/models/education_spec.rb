@@ -122,15 +122,15 @@ RSpec.describe Education, type: :model do
 
     context 'without an end month and end year' do 
       it 'returns present' do 
-        education.update!(education, end_month: nil, end_year: nil)
+        education.update!(end_month: nil, end_year: nil)
         expect(education.end_date).to eq('Present')
       end
     end
   end
 
-  describe '#date' do 
-    it 'returns the start and end date' do 
-      expect(education.date).to eq('April 1991 - June 1995')
-    end
-  end
+  # describe '#date' do 
+  #   it 'returns the start and end date' do 
+  #     expect(education.date).to eq('April 1991 - June 1995')
+  #   end
+  # end
 end
