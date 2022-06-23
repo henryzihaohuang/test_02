@@ -80,20 +80,21 @@ RSpec.describe Education, type: :model do
 
   describe '#start_date' do 
     context 'with a start month' do 
-      education.update!(start_month: '04', start_year: '1991')
       it 'should return the start month and start year' do 
+        education.update!(start_month: '04', start_year: '1991')
         expect(education.start_date).to eq('April 1991')
       end
 
-      it 'should change the numerical month value to the month name' do 
+      it 'should change the numerical month value to the month name' do
+        education.update!(start_month: '04', start_year: '1991')
         expect(education.start_date).to include('April')
       end
     end
 
     context 'without a start month' do 
-      education.update!(start_month: nil)
-    
+      
       it 'should only return the start year' do 
+        education.update!(start_month: nil)
         expect(education.start_date).to eq(1991)
       end
     end
@@ -101,31 +102,31 @@ RSpec.describe Education, type: :model do
 
   describe '#end_date' do 
     context 'with an end month' do 
-      education.update!(end_month: '06', end_year: '1998')
       
       it 'should return the end month and end year' do 
+        education.update!(end_month: '06', end_year: '1998')
         expect(education.end_date).to eq('June 1998')
       end
 
-      it 'should change the numerical month value to the month name' do 
+      it 'should change the numerical month value to the month name' do
+        education.update!(end_month: '06', end_year: '1998')
         expect(education.end_date).to include('June')
       end
     end
 
     context 'without an end month' do 
-      education.update!(end_month: nil, end_year: '1998')
-
+      
       it 'should only return the end year' do 
+        education.update!(end_month: nil, end_year: '1998')
         expect(education.end_date).to eq(1998)
       end
     end
 
     context 'without an end month and end year' do 
-      education.update!(education, end_month: nil, end_year: nil)
-
-      subject { education.end_date }
-    
-      it { is_expected.to eq('Present')}
+      it 'returns present' do 
+        education.update!(education, end_month: nil, end_year: nil)
+        expect(education.end_date).to eq('Present')
+      end
     end
   end
 
