@@ -61,13 +61,13 @@ RSpec.describe Education, type: :model do
       it { is_expected.to eq(true) }
     end
 
-    context 'when the start year exists & end year is nil' do 
-      let(:education) { FactoryBot.build(:education, :without_dates, end_year: nil)}
+    # context 'when the start year exists & end year is nil' do 
+    #   let(:education) { FactoryBot.build(:education, :without_dates, end_year: nil)}
       
-      it 'should return true' do 
-        expect(education.completed?).to eq(true)
-      end
-    end
+    #   it 'should return true' do 
+    #     expect(education.completed?).to eq(true)
+    #   end
+    # end
     
     context 'when the end year and end month are in the future' do 
       subject { current_student_education.completed? }
