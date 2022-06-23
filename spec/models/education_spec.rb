@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Education, type: :model do
-  let(:education) { FactoryBot.create(:education, uid: 1)}
+  let(:education) { create(:education, uid: 1)}
   let(:education_without_dates) { create(:education, start_year: nil, start_month: nil, end_year: nil, end_month: nil)}
   let(:has_graduated_education) { create(:education, start_year: Date.current.year - 8, start_month: Date.current.month, end_year: Date.current.year - 4, end_month: Date.current.month + 1) } 
   let(:current_student_education) { create(:education, start_year: Date.current.year - 1, start_month: Date.current.month, end_year: Date.current.year + 3, end_month: Date.current.month + 1) }
