@@ -16,11 +16,9 @@ RSpec.describe Education, type: :model do
   end
 
   describe '.reverse_chronological' do 
-    let(:candidate) { FactoryBot.create(:candidate, full_name: 'John Doe', uid: 1) }
+    let(:candidate) { create(:candidate, full_name: 'John Doe', uid: 1) }
     
     it 'should return educations in descending order' do 
-      p Candidate.all.count
-      
       first_education = FactoryBot.create(
         :education, 
         :first_education,
