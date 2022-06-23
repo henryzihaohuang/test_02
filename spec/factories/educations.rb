@@ -1,7 +1,6 @@
 FactoryBot.define do 
   factory :education do 
     association :candidate
-    uid
 
     school_name { Faker::University.name }
     degree { "Bachelors" }
