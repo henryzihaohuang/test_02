@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Education, type: :model do
-  let(:education) { create(:education, uid: 1)}
-  let(:education_without_dates) { create(:education, start_year: nil, start_month: nil, end_year: nil, end_month: nil)}
-  let(:has_graduated_education) { create(:education, start_year: Date.current.year - 8, start_month: Date.current.month, end_year: Date.current.year - 4, end_month: Date.current.month + 1) } 
-  let(:current_student_education) { create(:education, start_year: Date.current.year - 1, start_month: Date.current.month, end_year: Date.current.year + 3, end_month: Date.current.month + 1) }
+  let(:education) { FactoryBot.create(:education)}
+  let(:education_without_dates) { FactoryBot.build(:education, :without_dates)}
+  let(:has_graduated_education) { FactoryBot.create(:education, :has_graduated) } 
+  let(:current_student_education) { FactoryBot.create(:education, :current_student) }
 
   describe 'associations' do 
     it { should belong_to(:candidate) }
@@ -16,7 +16,7 @@ RSpec.describe Education, type: :model do
   end
 
   describe '.reverse_chronological' do 
-    let(:candidate) { create(:candidate, full_name: 'John Doe', uid: 1) }
+    let(:candidate) { FactoryBot.create(:candidate, full_name: 'John Doe') }
     
     it 'should return educations in descending order' do 
       first_education = FactoryBot.create(
@@ -61,13 +61,13 @@ RSpec.describe Education, type: :model do
       it { is_expected.to eq(true) }
     end
 
-    # context 'when the start year exists & end year is nil' do 
-    #   let(:education) { FactoryBot.build(:education, :without_dates, end_year: nil)}
+    context 'when the start year exists & end year is nil' do 
+      let(:education) { FactoryBot.build(:education, :without_dates, end_year: nil)}
       
-    #   it 'should return true' do 
-    #     expect(education.completed?).to eq(true)
-    #   end
-    # end
+      it 'should return true' do 
+        expect(education.completed?).to eq(true)
+      end
+    end
     
     context 'when the end year and end month are in the future' do 
       subject { current_student_education.completed? }
@@ -78,21 +78,21 @@ RSpec.describe Education, type: :model do
 
   describe '#start_date' do 
     context 'with a start month' do 
+      let(:education) { FactoryBot.build(:education, start_month: '04', start_year: '1991') }
+    
       it 'should return the start month and start year' do 
-        education.update!(start_month: '04', start_year: '1991')
         expect(education.start_date).to eq('April 1991')
       end
 
-      it 'should change the numerical month value to the month name' do
-        education.update!(start_month: '04', start_year: '1991')
+      it 'should change the numerical month value to the month name' do 
         expect(education.start_date).to include('April')
       end
     end
 
     context 'without a start month' do 
-      
+      let(:education) { FactoryBot.build(:education, start_month: nil) }
+    
       it 'should only return the start year' do 
-        education.update!(start_month: nil)
         expect(education.start_date).to eq(1991)
       end
     end
@@ -100,37 +100,37 @@ RSpec.describe Education, type: :model do
 
   describe '#end_date' do 
     context 'with an end month' do 
+      let(:education) {FactoryBot.build(:education, end_month: '06', end_year: '1998') }
       
       it 'should return the end month and end year' do 
-        education.update!(end_month: '06', end_year: '1998')
         expect(education.end_date).to eq('June 1998')
       end
 
-      it 'should change the numerical month value to the month name' do
-        education.update!(end_month: '06', end_year: '1998')
+      it 'should change the numerical month value to the month name' do 
         expect(education.end_date).to include('June')
       end
     end
 
     context 'without an end month' do 
-      
+      let(:education) { FactoryBot.build(:education, end_month: nil, end_year: '1998') }
+
       it 'should only return the end year' do 
-        education.update!(end_month: nil, end_year: '1998')
         expect(education.end_date).to eq(1998)
       end
     end
 
     context 'without an end month and end year' do 
-      it 'returns present' do 
-        education.update!(end_month: nil, end_year: nil)
-        expect(education.end_date).to eq('Present')
-      end
+      let (:education) { FactoryBot.build(:education, end_month: nil, end_year: nil)}
+
+      subject { education.end_date }
+    
+      it { is_expected.to eq('Present')}
     end
   end
 
-  # describe '#date' do 
-  #   it 'returns the start and end date' do 
-  #     expect(education.date).to eq('April 1991 - June 1995')
-  #   end
-  # end
+  describe '#date' do 
+    it 'returns the start and end date' do 
+      expect(education.date).to eq('April 1991 - June 1995')
+    end
+  end
 end
