@@ -16,7 +16,7 @@ RSpec.describe Education, type: :model do
   end
 
   describe '.reverse_chronological' do 
-    let(:candidate) { FactoryBot.create(:candidate, full_name: 'John Doe') }
+    let(:candidate) { FactoryBot.create(:candidate, full_name: 'John Doe', uid: 1) }
     
     it 'should return educations in descending order' do 
       p Candidate.all.count
@@ -80,8 +80,7 @@ RSpec.describe Education, type: :model do
 
   describe '#start_date' do 
     context 'with a start month' do 
-      let(:education) { FactoryBot.build(:education, start_month: '04', start_year: '1991') }
-    
+      education.update!(start_month: '04', start_year: '1991')
       it 'should return the start month and start year' do 
         expect(education.start_date).to eq('April 1991')
       end
@@ -92,7 +91,7 @@ RSpec.describe Education, type: :model do
     end
 
     context 'without a start month' do 
-      let(:education) { FactoryBot.build(:education, start_month: nil) }
+      education.update!(start_month: nil)
     
       it 'should only return the start year' do 
         expect(education.start_date).to eq(1991)
@@ -102,7 +101,7 @@ RSpec.describe Education, type: :model do
 
   describe '#end_date' do 
     context 'with an end month' do 
-      let(:education) {FactoryBot.build(:education, end_month: '06', end_year: '1998') }
+      education.update!(end_month: '06', end_year: '1998')
       
       it 'should return the end month and end year' do 
         expect(education.end_date).to eq('June 1998')
@@ -114,7 +113,7 @@ RSpec.describe Education, type: :model do
     end
 
     context 'without an end month' do 
-      let(:education) { FactoryBot.build(:education, end_month: nil, end_year: '1998') }
+      education.update!(end_month: nil, end_year: '1998')
 
       it 'should only return the end year' do 
         expect(education.end_date).to eq(1998)
@@ -122,7 +121,7 @@ RSpec.describe Education, type: :model do
     end
 
     context 'without an end month and end year' do 
-      let (:education) { FactoryBot.build(:education, end_month: nil, end_year: nil)}
+      education.update!(education, end_month: nil, end_year: nil)
 
       subject { education.end_date }
     
@@ -130,9 +129,9 @@ RSpec.describe Education, type: :model do
     end
   end
 
-  # describe '#date' do 
-  #   it 'returns the start and end date' do 
-  #     expect(education.date).to eq('April 1991 - June 1995')
-  #   end
-  # end
+  describe '#date' do 
+    it 'returns the start and end date' do 
+      expect(education.date).to eq('April 1991 - June 1995')
+    end
+  end
 end
