@@ -1,7 +1,7 @@
 FactoryBot.define do 
   factory :education do 
     association :candidate
-
+    uid { Faker::Number.number(digits: 10) }
     school_name { Faker::University.name }
     degree { "Bachelors" }
     description { Faker::Hipster.sentences }
